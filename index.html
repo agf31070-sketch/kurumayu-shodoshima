@@ -302,7 +302,7 @@
     display: block;
     width: 100%;
     background: #2a2623;
-    padding: 20px 0 40px 0;
+    padding: 0;
   }
   .scroll-deck > section {
     position: relative !important;
@@ -1065,7 +1065,7 @@
     var sections = document.querySelectorAll('.scroll-deck > section');
     sections.forEach(function(s) {
       s.style.transform = 'scale(' + scale + ')';
-      s.style.marginBottom = (20 - 1080 * (1 - scale)) + 'px';
+      s.style.marginBottom = (-1080 * (1 - scale)) + 'px';
     });
     var deck = document.querySelector('.scroll-deck');
     if (deck) {
