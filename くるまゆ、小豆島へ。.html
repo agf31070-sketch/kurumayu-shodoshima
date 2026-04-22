@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta name="robots" content="noindex, nofollow, noarchive">
 <meta charset="UTF-8">
 <title>くるまゆ、小豆島へ。</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Shippori+Mincho:wght@400;500;600;700&family=Zen+Kurenaido&family=Yomogi&family=Caveat:wght@400;600&family=Homemade+Apple&display=swap" rel="stylesheet">
+<script src="deck-stage.js"></script>
 <style>
   :root {
     --paper: #f0e6d2;
@@ -291,50 +291,12 @@
   [data-deco="low"] .doodle { opacity: 0.35; }
   [data-deco="high"] .tape { opacity: 1; }
   [data-deco="high"] .stamp { opacity: 0.9; }
-
-
-  /* === Vertical scroll layout (override deck-stage horizontal behavior) === */
-  html, body { 
-    overflow-y: auto !important; 
-    height: auto !important;
-  }
-  .scroll-deck {
-    display: block;
-    width: 100%;
-    background: #2a2623;
-    padding: 20px 0 40px 0;
-  }
-  .scroll-deck > section {
-    position: relative !important;
-    display: block !important;
-    width: 1920px !important;
-    height: 1080px !important;
-    margin: 0 auto !important;
-    left: auto !important;
-    top: auto !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    overflow: hidden;
-    box-sizing: border-box;
-    /* Scale to fit viewport width while preserving aspect ratio */
-    transform: scale(var(--slide-scale));
-    transform-origin: top center;
-    margin-bottom: calc(-1080px * (1 - var(--slide-scale)) + 20px) !important;
-  }
-  /* responsive scale calc via CSS custom property set per viewport */
-  :root { --slide-scale: min(1, calc(100vw / 1920)); }
-  @media (max-width: 1920px) {
-    :root { --slide-scale: calc(100vw / 1920); }
-  }
-  /* Clean up top margin of first slide */
-  .scroll-deck > section:first-child { margin-top: 0 !important; }
-
 </style>
 </head>
 <body>
 <script type="application/json" id="speaker-notes">[]</script>
 
-<main class="scroll-deck" id="stage">
+<deck-stage width="1920" height="1080" id="stage">
 
 <!-- ========== SLIDE 01 : COVER ========== -->
 <section data-label="01 表紙">
@@ -970,7 +932,7 @@
   </div>
 </section>
 
-</main>
+</deck-stage>
 
 <!-- ===== Tweaks ===== -->
 <div id="tweaks-panel">
