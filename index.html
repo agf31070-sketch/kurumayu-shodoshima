@@ -1067,14 +1067,12 @@
     var scale = Math.min(1, window.innerWidth / maxW);
     var sections = document.querySelectorAll('.scroll-deck > section');
     sections.forEach(function(s) {
-      s.style.transform = 'scale(' + scale + ')';
-      s.style.marginBottom = (-1080 * (1 - scale)) + 'px';
+      // zoom changes layout size (unlike transform scale), so no gap
+      s.style.zoom = scale;
+      s.style.transform = '';
+      s.style.marginBottom = '';
     });
-    var deck = document.querySelector('.scroll-deck');
-    if (deck) {
-      // prevent horizontal scroll
-      document.body.style.overflowX = 'hidden';
-    }
+    document.body.style.overflowX = 'hidden';
   }
   scaleSlides();
   window.addEventListener('resize', scaleSlides);
