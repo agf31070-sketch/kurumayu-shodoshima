@@ -3,6 +3,7 @@
 <head>
     <meta name="robots" content="noindex, nofollow, noarchive">
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>くるまゆ、小豆島へ。</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -293,35 +294,42 @@
   [data-deco="high"] .stamp { opacity: 0.9; }
 
 
-  /* === Vertical scroll layout (override deck-stage horizontal behavior) === */
+  
+
+  /* === Vertical scroll layout with responsive wrappers === */
   html, body { 
-    overflow-y: auto !important; 
-    height: auto !important;
+    overflow-x: hidden !important;
+    margin: 0;
   }
   .scroll-deck {
     display: block;
     width: 100%;
     background: #2a2623;
     padding: 0;
+    margin: 0;
   }
-  .scroll-deck > section {
-    position: relative !important;
+  .slide-wrap {
+    position: relative;
+    width: min(100vw, 1920px);
+    aspect-ratio: 16 / 9;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .slide-wrap > section {
+    position: absolute !important;
     display: block !important;
     width: 1920px !important;
     height: 1080px !important;
-    margin-top: 0 !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    /* margin-bottom set dynamically via JS */
-    left: auto !important;
-    top: auto !important;
+    top: 0 !important;
+    left: 0 !important;
     opacity: 1 !important;
     visibility: visible !important;
+    transform: scale(calc(min(100vw, 1920px) / 1920)) !important;
+    transform-origin: top left !important;
     overflow: hidden;
     box-sizing: border-box;
-    transform-origin: top left !important;
+    margin: 0 !important;
   }
-  .scroll-deck > section:first-child { margin-top: 0 !important; }
 
 </style>
 </head>
@@ -1062,20 +1070,18 @@
 
 <script>
 (function() {
-  function scaleSlides() {
-    var maxW = 1920;
-    var scale = Math.min(1, window.innerWidth / maxW);
-    var sections = document.querySelectorAll('.scroll-deck > section');
-    sections.forEach(function(s) {
-      // zoom changes layout size (unlike transform scale), so no gap
-      s.style.zoom = scale;
-      s.style.transform = '';
-      s.style.marginBottom = '';
-    });
-    document.body.style.overflowX = 'hidden';
-  }
-  scaleSlides();
-  window.addEventListener('resize', scaleSlides);
+  // Wrap each section in .slide-wrap so viewport-based CSS can size responsively
+  var deck = document.querySelector('.scroll-deck');
+  if (!deck) return;
+  var sections = Array.prototype.slice.call(deck.children).filter(function(el) {
+    return el.tagName === 'SECTION';
+  });
+  sections.forEach(function(s) {
+    var wrap = document.createElement('div');
+    wrap.className = 'slide-wrap';
+    deck.insertBefore(wrap, s);
+    wrap.appendChild(s);
+  });
 })();
 </script>
 </body>
