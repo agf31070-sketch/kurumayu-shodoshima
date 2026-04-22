@@ -317,8 +317,8 @@
     overflow: hidden;
     box-sizing: border-box;
     /* Scale to fit viewport width while preserving aspect ratio */
-    transform: scale(var(--slide-scale));
-    transform-origin: top center;
+    transform: scale(var(--slide-scale)) !important;
+    transform-origin: top center !important;
     margin-bottom: calc(-1080px * (1 - var(--slide-scale)) + 20px) !important;
   }
   /* responsive scale calc via CSS custom property set per viewport */
