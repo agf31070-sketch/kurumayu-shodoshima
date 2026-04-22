@@ -309,22 +309,23 @@
     display: block !important;
     width: 1920px !important;
     height: 1080px !important;
-    margin: 0 auto !important;
+    margin: 0 auto 20px auto !important;
     left: auto !important;
     top: auto !important;
     opacity: 1 !important;
     visibility: visible !important;
     overflow: hidden;
     box-sizing: border-box;
-    /* Scale to fit viewport width while preserving aspect ratio */
-    transform: scale(var(--slide-scale)) !important;
-    transform-origin: top center !important;
-    margin-bottom: calc(-1080px * (1 - var(--slide-scale)) + 20px) !important;
+    /* Use zoom for responsive scaling - changes layout size too */
+    zoom: calc(100vw / 1920);
   }
-  /* responsive scale calc via CSS custom property set per viewport */
-  :root { --slide-scale: min(1, calc(100vw / 1920)); }
-  @media (max-width: 1920px) {
-    :root { --slide-scale: calc(100vw / 1920); }
+  /* For browsers that don't support zoom on non-root, fallback via transform+wrapper */
+  @supports not (zoom: 0.5) {
+    .scroll-deck > section {
+      transform: scale(calc(100vw / 1920)) !important;
+      transform-origin: top center !important;
+      margin-bottom: calc(-1080px * (1 - calc(100vw / 1920)) + 20px) !important;
+    }
   }
   /* Clean up top margin of first slide */
   .scroll-deck > section:first-child { margin-top: 0 !important; }
