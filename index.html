@@ -309,25 +309,15 @@
     display: block !important;
     width: 1920px !important;
     height: 1080px !important;
-    margin: 0 auto 20px auto !important;
+    margin: 0 auto !important;
     left: auto !important;
     top: auto !important;
     opacity: 1 !important;
     visibility: visible !important;
     overflow: hidden;
     box-sizing: border-box;
-    /* Use zoom for responsive scaling - changes layout size too */
-    zoom: calc(100vw / 1920);
+    transform-origin: top left !important;
   }
-  /* For browsers that don't support zoom on non-root, fallback via transform+wrapper */
-  @supports not (zoom: 0.5) {
-    .scroll-deck > section {
-      transform: scale(calc(100vw / 1920)) !important;
-      transform-origin: top center !important;
-      margin-bottom: calc(-1080px * (1 - calc(100vw / 1920)) + 20px) !important;
-    }
-  }
-  /* Clean up top margin of first slide */
   .scroll-deck > section:first-child { margin-top: 0 !important; }
 
 </style>
@@ -1067,5 +1057,25 @@
 })();
 </script>
 
+<script>
+(function() {
+  function scaleSlides() {
+    var maxW = 1920;
+    var scale = Math.min(1, window.innerWidth / maxW);
+    var sections = document.querySelectorAll('.scroll-deck > section');
+    sections.forEach(function(s) {
+      s.style.transform = 'scale(' + scale + ')';
+      s.style.marginBottom = (20 - 1080 * (1 - scale)) + 'px';
+    });
+    var deck = document.querySelector('.scroll-deck');
+    if (deck) {
+      // prevent horizontal scroll
+      document.body.style.overflowX = 'hidden';
+    }
+  }
+  scaleSlides();
+  window.addEventListener('resize', scaleSlides);
+})();
+</script>
 </body>
 </html>
